@@ -17,7 +17,9 @@ node* getNewNode(int data){
 bool isSubTreeLesser(node* root, int data){
 	if(root == NULL) return true;
 	
-	if(root->data <= data && isSubTreeLesser(root->left, data) && isSubTreeLesser(root->right, data))
+	if(root->data <= data 
+		&& isSubTreeLesser(root->left, data) 
+		&& isSubTreeLesser(root->right, data))
 		return true;
 	else
 		return false;
@@ -25,22 +27,29 @@ bool isSubTreeLesser(node* root, int data){
 bool isSubTreeGreater(node* root, int data){
 	if(root == NULL) return true;
 	
-	if(root->data > data && isSubTreeGreater(root->left, data) && isSubTreeGreater(root->right, data))
+	if(root->data > data 
+		&& isSubTreeGreater(root->left, data) 
+		&& isSubTreeGreater(root->right, data))
 		return true;
 	else
 		return false;
 }
-bool isBinarySearchTree(node* root){
+bool isBSTUtil(node* root, int minValue, int maxValue){
 	if(root == NULL) return true;
 	
-	if(isSubTreeLesser(root->left, root->data) && isSubTreeGreater(root->right, root->data) && 
-		isBinarySearchTree(root->left) && isBinarySearchTree(root->right)){
+	if(root->data > minValue 
+		&& root->data < maxValue 
+		&& isBSTUtil(root->left, minValue,root->data) 
+		&& isBSTUtil(root->right, root->data, maxValue)){
 			return true;
 	}else{
 		return false;
 	}
 }
 
+bool isBinarySearchTree(node* root){
+	return isBSTUtil(root, INT_MIN, INT_MAX);
+}
 int main(){
 	/*
 						7	
